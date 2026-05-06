@@ -1,65 +1,164 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import CartDrawer from "./components/CartDrawer";
+import ProductModal from "./components/ProductModal";
+
+const PRODUCTS = [
+  {
+    id: 1,
+    name: "The North Korea Tee (White)",
+    price: 45,
+    img: "/images/white-tee.png",
+    desc: "Oversized fit. 230 GSM.",
+    stock: { S: 4, M: 5, L: 4, XL: 2 },
+  },
+  {
+    id: 2,
+    name: "The North Korea Tee (Black)",
+    price: 45,
+    img: "/images/black-tee.png",
+    desc: "Oversized fit. 230 GSM.",
+    stock: { S: 4, M: 4, L: 3, XL: 2 },
+  },
+];
 
 export default function Home() {
+  const [cart, setCart] = useState([]);
+  const [modal, setModal] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [hovered, setHovered] = useState(null);
+
+  const cartCount = cart.reduce((s, i) => s + i.qty, 0);
+
+  function addToCart(product, size) {
+    setCart((prev) => {
+      const ex = prev.find((i) => i.id === product.id && i.size === size);
+      if (ex) {
+        return prev.map((i) =>
+          i.id === product.id && i.size === size ? { ...i, qty: i.qty + 1 } : i
+        );
+      }
+      return [...prev, { ...product, size, qty: 1 }];
+    });
+    setModal(null);
+    setDrawerOpen(true);
+  }
+
+  function removeFromCart(id, size) {
+    setCart((prev) => prev.filter((i) => !(i.id === id && i.size === size)));
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main style={{ background: "#fff", minHeight: "100vh" }}>
+      <nav style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 100,
+        background: "transparent",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "0 16px",
+        height: 52,
+        borderBottom: "1px solid #000"
+      }}>
+        <span style={{
+          fontSize: 18,
+          fontWeight: 400,
+          color: "#000",
+          fontFamily: "'AlteHaas', sans-serif",
+          letterSpacing: "0.04em"
+        }}>
+          Mourning Glory
+        </span>
+        <button
+          onClick={() => setDrawerOpen(true)}
+          style={{
+            fontSize: 12,
+            fontWeight: 200,
+            letterSpacing: "0.1em",
+            color: "#000",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            textTransform: "uppercase",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            fontFamily: "'AlteHaas', sans-serif"
+          }}
+        >
+          BAG
+          <span style={{
+            fontSize: 10,
+            background: "#000",
+            color: "#fff",
+            borderRadius: "50%",
+            width: 18,
+            height: 18,
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 700,
+            fontFamily: "'AlteHaas', sans-serif"
+          }}>
+            {cartCount}
+          </span>
+        </button>
+      </nav>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, background: "#e0e0e0" }}>
+        {PRODUCTS.map((p) => (
+          <div
+            key={p.id}
+            onClick={() => setModal(p)}
+            onMouseEnter={() => setHovered(p.id)}
+            onMouseLeave={() => setHovered(null)}
+            style={{ background: "#fff", cursor: "pointer", overflow: "hidden" }}
+          >
+            <div style={{ aspectRatio: "1/1", overflow: "hidden", background: "#F5F0E8" }}>
+              <img
+                src={p.img}
+                alt={p.name}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                  transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)",
+                  transform: hovered === p.id ? "scale(1.04)" : "scale(1)",
+                }}
+              />
+            </div>
+            <div style={{
+              padding: "12px 14px 14px",
+              borderTop: "1.5px solid #000",
+              fontFamily: "'AlteHaas', sans-serif"
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
+                <span style={{ fontSize: 12, color: "#000", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase" }}>{p.name}</span>
+                <span style={{ fontSize: 12, color: "#000", fontWeight: 700 }}>${p.price}</span>
+              </div>
+              <div style={{ fontSize: 11, color: "#000", letterSpacing: "0.03em" }}>{p.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {modal && (
+        <ProductModal
+          product={modal}
+          onClose={() => setModal(null)}
+          onAdd={addToCart}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      )}
+
+      <CartDrawer
+        cart={cart}
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        onRemove={removeFromCart}
+      />
+    </main>
   );
 }
