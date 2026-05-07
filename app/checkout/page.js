@@ -73,28 +73,25 @@ function CheckoutForm({ cart, total }) {
   return (
     <div style={{ maxWidth: 520, margin: "0 auto", padding: "40px 24px 80px", fontFamily: "'AlteHaas', sans-serif" }}>
 
-      {/* ORDER SUMMARY */}
       <div style={{ marginBottom: 40 }}>
-        <div style={{ fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#000", marginBottom: 16 }}>Order Summary</div>
+        <div style={{ fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "#888", marginBottom: 16 }}>Order Summary</div>
         {cart.map((i) => (
-          <div key={i.id + i.size} style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#000", padding: "8px 0", borderBottom: "1px solid #eee" }}>
+          <div key={i.id + i.size} style={{ display: "flex", justifyContent: "space-between", fontSize: 13, padding: "8px 0", borderBottom: "1px solid #eee", color: "#000" }}>
             <span>{i.name} — {i.size} × {i.qty}</span>
             <span>${i.price * i.qty}</span>
           </div>
         ))}
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, color: "#000", fontWeight: 700, marginTop: 16 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, fontWeight: 700, marginTop: 16, color: "#000" }}>
           <span>Total</span>
           <span>${total}</span>
         </div>
       </div>
 
-      {/* CONTACT */}
       <div style={{ marginBottom: 32 }}>
         <span style={label}>Contact</span>
         <input style={inp} placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
       </div>
 
-      {/* SHIPPING */}
       <div style={{ marginBottom: 32 }}>
         <span style={label}>Shipping</span>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
@@ -102,13 +99,12 @@ function CheckoutForm({ cart, total }) {
           <input style={inp} placeholder="Last name" value={form.last} onChange={(e) => setForm({ ...form, last: e.target.value })} />
         </div>
         <input style={inp} placeholder="Address" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} />
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, color: "#000", }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           <input style={inp} placeholder="City" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} />
           <input style={inp} placeholder="ZIP" value={form.zip} onChange={(e) => setForm({ ...form, zip: e.target.value })} />
         </div>
       </div>
 
-      {/* PAYMENT */}
       <div style={{ marginBottom: 32 }}>
         <span style={label}>Payment</span>
         <PaymentElement />
@@ -159,8 +155,8 @@ export default function Checkout() {
   return (
     <div style={{ fontFamily: "'AlteHaas', sans-serif", minHeight: "100vh", background: "#fff" }}>
       <nav style={{ borderBottom: "1px solid #000", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 16px", height: 52 }}>
-        <span style={{ fontSize: 18, color: "#000", fontWeight: 500, fontFamily: "'AlteHaas', sans-serif" }}>Mourning Glory</span>
-        <button onClick={() => router.push("/")} style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", background: "none", border: "none", cursor: "pointer", fontFamily: "'AlteHaas', sans-serif" }}>← Back</button>
+        <span style={{ fontSize: 18, fontWeight: 700, fontFamily: "'AlteHaas', sans-serif", color: "#000" }}>Mourning Glory</span>
+        <button onClick={() => router.push("/")} style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", background: "none", border: "none", cursor: "pointer", fontFamily: "'AlteHaas', sans-serif", color: "#000" }}>← Back</button>
       </nav>
       <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: "stripe" } }}>
         <CheckoutForm cart={cart} total={total} />

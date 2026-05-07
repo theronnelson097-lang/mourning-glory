@@ -7,7 +7,7 @@ const PRODUCTS = [
   {
     id: 1,
     name: "The North Korea Tee (White)",
-    price: 45,
+    price: 35,
     img: "/images/white-tee.png",
     desc: "Oversized fit. 230 GSM.",
     stock: { S: 4, M: 5, L: 4, XL: 2 },
@@ -15,7 +15,7 @@ const PRODUCTS = [
   {
     id: 2,
     name: "The North Korea Tee (Black)",
-    price: 45,
+    price: 35,
     img: "/images/black-tee.png",
     desc: "Oversized fit. 230 GSM.",
     stock: { S: 4, M: 4, L: 3, XL: 2 },

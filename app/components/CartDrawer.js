@@ -49,9 +49,9 @@ export default function CartDrawer({ cart, open, onClose, onRemove }) {
             <div key={item.id + item.size} style={{ display: "flex", gap: 12, padding: "12px 0", borderBottom: "1px solid #eee" }}>
               <img src={item.img} alt={item.name} style={{ width: 64, height: 64, objectFit: "cover", background: "#F5F0E8", flexShrink: 0 }} />
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 3 }}>{item.name}</div>
-                <div style={{ fontSize: 11, color: "#888", letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 4 }}>{item.size} · Qty {item.qty}</div>
-                <div style={{ fontSize: 12, fontWeight: 700 }}>${item.price * item.qty}</div>
+                <div style={{ fontSize: 12, color: "#000", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 3 }}>{item.name}</div>
+                <div style={{ fontSize: 11, color: "#000", letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 4 }}>{item.size} · Qty {item.qty}</div>
+                <div style={{ fontSize: 12, color: "#000", fontWeight: 700 }}>${item.price * item.qty}</div>
               </div>
               <button onClick={() => onRemove(item.id, item.size)} style={{ background: "none", border: "none", fontSize: 13, cursor: "pointer", color: "#ccc", alignSelf: "flex-start", fontFamily: "'AlteHaas', sans-serif" }}>✕</button>
             </div>
@@ -63,7 +63,7 @@ export default function CartDrawer({ cart, open, onClose, onRemove }) {
         <div style={{ padding: 16, borderTop: "1.5px solid #000" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 14 }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#888" }}>Total</span>
-            <span style={{ fontSize: 18, fontWeight: 700 }}>${total}</span>
+            <span style={{ fontSize: 18, color: "#000", fontWeight: 700 }}>${total}</span>
           </div>
           <button
             onClick={goCheckout}
