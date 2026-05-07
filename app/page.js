@@ -69,7 +69,7 @@ export default function Home() {
           fontFamily: "'AlteHaas', sans-serif",
           letterSpacing: "0.04em"
         }}>
-          Mourning Glory
+          MOURNING GLORY
         </span>
         <button
           onClick={() => setDrawerOpen(true)}
