@@ -140,7 +140,7 @@ export default function Checkout() {
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount }),
+      body: JSON.stringify({ amount, cartItems: parsed }),
     })
       .then((r) => r.json())
       .then((d) => setClientSecret(d.clientSecret));
