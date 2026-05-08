@@ -10,7 +10,7 @@ export async function POST(req) {
     currency: "usd",
     automatic_payment_methods: { enabled: true },
     metadata: {
-      order: cartItems.map(i => `${i.name} (${i.size}) x${i.qty}`).join(", ")
+      order_summary: cartItems.map(i => `${i.name} | Size: ${i.size} | Qty: ${i.qty}`).join(" // ")
     },
   });
 
